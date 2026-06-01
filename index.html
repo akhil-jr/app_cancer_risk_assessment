@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epidemiological Cancer Risk Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: #f3f4f6; color: #1f2937; }
+        .risk-bar { transition: width 1s ease-in-out, background-color 0.5s; }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="antialiased">
+
+<div class="min-h-screen pb-12">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-800 to-blue-900 text-white py-8 px-4 shadow-lg mb-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2"><i class="fa-solid fa-dna mr-3 text-blue-400"></i>Oncological Risk Assessment</h1>
+                <p class="text-slate-300 max-w-2xl text-sm md:text-base">An epidemiological framework evaluating the synergistic interplay between genetic predispositions, environmental exposures, and lifestyle chemoprevention.</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-sm bg-slate-700/50 px-4 py-2 rounded-lg border border-slate-600">
+                <i class="fa-solid fa-circle-info mr-2 text-blue-300"></i>Based on WCRF/AICR Framework
+				<br>
+				<i class="fa-solid fa-circle-info mr-2 text-blue-300"></i>Built by Akhil J R
+				<!-- Square LinkedIn Block Icon -->
+				<a href="https://www.linkedin.com/in/akhil-jr/" target="_blank" style="color: #0077b5; font-size: 20px;">
+				  <i class="fab fa-linkedin"></i>
+				</a> using Gemini
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="max-w-6xl mx-auto px-4 mb-8">
+        <div class="flex space-x-2 md:space-x-4 border-b border-slate-300 overflow-x-auto">
+            <button id="btn-tab-summary" class="py-3 px-4 border-b-2 font-bold text-blue-600 border-blue-600 whitespace-nowrap transition-colors" onclick="switchTab('summary')">
+                <i class="fa-solid fa-book-medical mr-2"></i>Cancer Profiles & Prevention
+            </button>
+            <button id="btn-tab-calculator" class="py-3 px-4 border-b-2 font-semibold text-slate-500 border-transparent hover:text-slate-800 hover:border-slate-400 whitespace-nowrap transition-colors" onclick="switchTab('calculator')">
+                <i class="fa-solid fa-calculator mr-2"></i>Risk Assessment Calculator
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab 1: Cancer Summaries -->
+    <div id="tab-summary" class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Lung Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 mr-3"><i class="fa-solid fa-lungs text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Lung & Bronchus</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">The leading cause of global cancer mortality, overwhelmingly dictated by inhalation of toxicants.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Combustible tobacco smoke</li>
+                        <li>Indoor radon gas accumulation</li>
+                        <li>Asbestos & industrial air pollution</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Strict smoking cessation</li>
+                        <li>Radon mitigation in homes</li>
+                        <li>Green tea catechins (for non-smokers)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Breast Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600 mr-3"><i class="fa-solid fa-person-breast text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Breast Carcinoma</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">A complex amalgamation of genetic penetrance and lifetime estrogenic hormone exposure.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>BRCA1/BRCA2 genetic mutations</li>
+                        <li>Obesity (Post-menopausal aromatization)</li>
+                        <li>Alcohol consumption & late menopause</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Routine mammographic screening</li>
+                        <li>Sustained vigorous physical activity</li>
+                        <li>Prolonged breastfeeding (> 6 months)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Colorectal Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 mr-3"><i class="fa-solid fa-disease text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Colorectal</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Gastrointestinal malignancy heavily influenced by diet, inflammation, and microbiome.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Red and processed meats (Nitrosamines)</li>
+                        <li>Inflammatory Bowel Disease (IBD)</li>
+                        <li>Lynch Syndrome / Familial Polyps</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>High dietary fiber (Butyrate production)</li>
+                        <li>Long-term NSAIDs / Aspirin use</li>
+                        <li>Routine colonoscopy screening</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prostate Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3"><i class="fa-solid fa-mars text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Prostate</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Hormonally driven malignancy where aggressive phenotypes are heavily linked to metabolic stress.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Family history & Genetics</li>
+                        <li>Clinical Obesity (Drives advanced/fatal forms)</li>
+                        <li>Advanced age</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Maintenance of low waist-to-hip ratio</li>
+                        <li>PSA/DRE screening (risk-stratified)</li>
+                        <li>High baseline physical activity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Liver Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 mr-3"><i class="fa-solid fa-capsules text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Hepatocellular (Liver)</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Biphasic etiology driven by chronic infectious pathogens and severe metabolic toxicity.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Hepatitis B & C Viruses</li>
+                        <li>Heavy Alcohol (Cirrhosis) & NAFLD/NASH</li>
+                        <li>Aflatoxin dietary exposure</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Hepatitis B vaccination & HCV treatment</li>
+                        <li>Regular Coffee consumption (highly protective)</li>
+                        <li>Weight & alcohol management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Stomach Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-lime-100 flex items-center justify-center text-lime-600 mr-3"><i class="fa-solid fa-stomach text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Gastric (Stomach)</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Mucosal malignancy deeply embedded in bacterial colonization and dietary irritants.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Helicobacter pylori infection</li>
+                        <li>High salt & traditional pickled foods</li>
+                        <li>Processed meats & smoking</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Clinical eradication of H. pylori</li>
+                        <li>High intake of fruits/veg (Antioxidants)</li>
+                        <li>Limiting dietary sodium</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pancreatic Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 mr-3"><i class="fa-solid fa-bacterium text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Pancreatic</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Highly lethal, rapidly progressing malignancy rooted in metabolic syndrome and toxicity.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Type 2 Diabetes & Obesity</li>
+                        <li>Tobacco smoking</li>
+                        <li>BRCA mutations / Chronic Pancreatitis</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Blood sugar management (prevent hyperinsulinemia)</li>
+                        <li>Strict tobacco cessation</li>
+                        <li>Maintaining healthy BMI</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Esophageal Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center text-teal-600 mr-3"><i class="fa-solid fa-arrows-down-to-line text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Esophageal</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Split into Squamous (toxin/thermal driven) and Adenocarcinoma (reflux/obesity driven).</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Obesity + GERD / Barrett's Esophagus</li>
+                        <li>Synergy of Alcohol & Tobacco</li>
+                        <li>Scalding/very hot beverages</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Management of acid reflux</li>
+                        <li>Avoidance of thermal trauma (let drinks cool)</li>
+                        <li>Weight management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cervical Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center text-rose-600 mr-3"><i class="fa-solid fa-venus text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Cervical</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Gynecological malignancy with a near-singular, highly preventable viral etiology.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Persistent High-Risk HPV Infection</li>
+                        <li>Tobacco smoking (local immunosuppression)</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Prophylactic HPV Vaccination</li>
+                        <li>Routine Pap smear / HPV DNA screening</li>
+                        <li>Smoking cessation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Melanoma Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3"><i class="fa-solid fa-sun text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Melanoma (Skin)</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Aggressive malignancy directly resulting from radiation-induced DNA mutagenesis.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Ultraviolet (UV) Radiation (Sun/Tanning)</li>
+                        <li>Genetic susceptibility (CDKN2A)</li>
+                        <li>History of blistering sunburns</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Strict UV avoidance & broad-spectrum barrier</li>
+                        <li>Routine dermatological screening</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Kidney Cancer -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col hover:shadow-md transition">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-red-600 mr-3"><i class="fa-solid fa-kidneys text-xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">Renal (Kidney)</h3>
+                </div>
+                <p class="text-sm text-slate-600 italic mb-4 border-b border-slate-100 pb-3">Urological cancer highly sensitive to metabolic stress and concentrated systemic toxicants.</p>
+                <div class="mb-3 flex-grow">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">Key Causants</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Tobacco smoking</li>
+                        <li>Clinical Obesity & Hypertension</li>
+                        <li>Industrial chemical exposures</li>
+                    </ul>
+                </div>
+                <div class="mt-2 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Preventative Actions</h4>
+                    <ul class="text-sm text-slate-700 list-disc pl-4 space-y-1">
+                        <li>Smoking cessation</li>
+                        <li>Maintaining healthy BMI & blood pressure</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tab 2: Calculator -->
+    <div id="tab-calculator" class="hidden">
+        <main class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Input Form (Spans 2 columns on large screens) -->
+            <div class="lg:col-span-2 space-y-6">
+                <form id="assessmentForm" class="space-y-6">
+                    
+                    <!-- Section 1: Demographics & Clinical Profile -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 border-b border-slate-200 px-6 py-4">
+                            <h2 class="text-xl font-semibold text-slate-800"><i class="fa-solid fa-hospital-user mr-2 text-blue-600"></i>Clinical Profile & Baseline</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Biological Sex</label>
+                                <select id="sex" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border" onchange="toggleSexSpecificFields()">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Age</label>
+                                <input type="number" id="age" min="18" max="100" value="45" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Body Mass Index (BMI)</label>
+                                <select id="obesity" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Normal/Healthy Weight (< 25)</option>
+                                    <option value="1">Overweight (25 - 29.9)</option>
+                                    <option value="2">Obese (≥ 30) / High Waist-to-Hip</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Type 2 Diabetes Mellitus</label>
+                                <select id="diabetes" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="female-only hidden">
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Menopausal Status</label>
+                                <select id="menopause" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Pre-menopausal</option>
+                                    <option value="1">Post-menopausal / Late Menopause</option>
+                                </select>
+                            </div>
+                            <div class="female-only hidden">
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Breast Density (Mammographic)</label>
+                                <select id="breastDensity" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Low / Normal</option>
+                                    <option value="1">High Density</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Lineage & Infections -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 border-b border-slate-200 px-6 py-4">
+                            <h2 class="text-xl font-semibold text-slate-800"><i class="fa-solid fa-viruses mr-2 text-rose-600"></i>Genetics & Infectious Causants</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Family History of Cancer (1st Degree)</label>
+                                <select id="familyHistory" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">None / Unknown</option>
+                                    <option value="general">Yes, general or non-specific</option>
+                                    <option value="brca">Yes (BRCA1/2 / Breast / Ovarian)</option>
+                                    <option value="lynch">Yes (Lynch / FAP / Colorectal)</option>
+                                    <option value="prostate">Yes (Prostate)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Chronic Viral Infections</label>
+                                <select id="hepatitis" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">None</option>
+                                    <option value="1">Hepatitis B or C Virus (Chronic)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">HPV Infection Status</label>
+                                <select id="hpv" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Negative / Vaccinated</option>
+                                    <option value="1">Positive (High-Risk Strain)</option>
+                                    <option value="0">Unknown</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Gastrointestinal Conditions</label>
+                                <select id="gi_conditions" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="none">None</option>
+                                    <option value="h_pylori">Helicobacter Pylori Infection</option>
+                                    <option value="ibd">Inflammatory Bowel Disease (Crohn's/Colitis)</option>
+                                    <option value="gerd">Severe GERD / Barrett's Esophagus</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Lifestyle & Diet (Modifiable) -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 border-b border-slate-200 px-6 py-4">
+                            <h2 class="text-xl font-semibold text-slate-800"><i class="fa-solid fa-utensils mr-2 text-emerald-600"></i>Lifestyle & Environmental (Modifiable)</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Tobacco Smoking</label>
+                                <select id="smoking" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Never Smoked</option>
+                                    <option value="1">Former Smoker (>15 years quit)</option>
+                                    <option value="2">Current Light/Moderate Smoker</option>
+                                    <option value="3">Current Heavy Smoker (Chain/Pack-Years high)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Alcohol Consumption</label>
+                                <select id="alcohol" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">None or Rare</option>
+                                    <option value="1">Moderate (< 2 drinks/day)</option>
+                                    <option value="2">Heavy (> 3 drinks/day)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Red & Processed Meat Intake</label>
+                                <select id="meat" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Rare / Vegetarian</option>
+                                    <option value="1">Moderate</option>
+                                    <option value="2">High (Daily bacon, cured meats, beef)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Dietary Profile Risk</label>
+                                <select id="diet_risk" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Balanced</option>
+                                    <option value="salt">High Salt / Pickled Foods (Traditional)</option>
+                                    <option value="sugar">High Sugar-Sweetened Drinks / Ultra-processed</option>
+                                    <option value="hot">Very Hot/Scalding Beverages (Mate, Tea)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Environmental Exposures</label>
+                                <select id="environmental" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">None Known</option>
+                                    <option value="radon">Indoor Radon / Asbestos</option>
+                                    <option value="uv">Severe Ultraviolet (UV) / Sunburn History</option>
+                                    <option value="aflatoxin">Aflatoxin (Improperly stored grains)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Physical Activity</label>
+                                <select id="physical_activity" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Sedentary (< 1 hour/week)</option>
+                                    <option value="1">Moderate</option>
+                                    <option value="2">Sustained Vigorous (> 150 mins/week)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Protective Habits (Chemoprevention) -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 border-b border-slate-200 px-6 py-4">
+                            <h2 class="text-xl font-semibold text-slate-800"><i class="fa-solid fa-shield-virus mr-2 text-indigo-600"></i>Protective Interventions (Chemoprevention)</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Dietary Fiber / Whole Grains</label>
+                                <select id="fiber" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Low</option>
+                                    <option value="1">High (>30g daily)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Fruit & Veg Intake (>400g/day)</label>
+                                <select id="veg" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Low</option>
+                                    <option value="1">High</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Coffee / Green Tea</label>
+                                <select id="coffee_tea" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="none">Neither</option>
+                                    <option value="coffee">Daily Coffee (Chlorogenic acid)</option>
+                                    <option value="tea">Green Tea (EGCG Catechins)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Long-term NSAIDs / Aspirin Use</label>
+                                <select id="nsaids" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes (> 5 years daily)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Clinical Screening Compliance</label>
+                                <select id="screening" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">Poor / Irregular</option>
+                                    <option value="1">Routine (Colonoscopy, Pap, Mammogram etc.)</option>
+                                </select>
+                            </div>
+                            <div class="female-only hidden">
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Breastfeeding History</label>
+                                <select id="breastfeeding" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 p-2 border">
+                                    <option value="0">No / < 6 months</option>
+                                    <option value="1">Yes (> 6 months cumulative)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Output / Results Dashboard -->
+            <div class="lg:col-span-1">
+                <div id="resultsDashboard" class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 sticky top-6 flex flex-col max-h-[calc(100vh-100px)]">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">Risk Stratification</h2>
+                        <p class="text-sm text-slate-500 mt-1">Based on AMLES algorithmic modeling.</p>
+                    </div>
+
+                    <div id="calculatedState" class="flex-grow flex flex-col overflow-y-auto pr-2">
+                        <!-- Dynamic Bars injected here -->
+                        <div id="cancerBars" class="space-y-4 flex-grow"></div>
+                        
+                        <div class="mt-6 pt-4 border-t border-slate-200">
+                            <h3 class="font-semibold text-slate-800 mb-2"><i class="fa-solid fa-lightbulb text-amber-500 mr-2"></i>Clinical Insights</h3>
+                            <ul id="insightsList" class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                                <!-- Dynamic Insights -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-200 text-xs text-slate-400 text-center">
+                        Demonstrative tool only. Not a substitute for professional medical screening, diagnosis, or advice.
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+    // Tab Navigation Logic
+    function switchTab(tabId) {
+        document.getElementById('tab-summary').classList.add('hidden');
+        document.getElementById('tab-calculator').classList.add('hidden');
+        
+        const summaryBtn = document.getElementById('btn-tab-summary');
+        const calcBtn = document.getElementById('btn-tab-calculator');
+
+        summaryBtn.className = "py-3 px-4 border-b-2 font-semibold text-slate-500 border-transparent hover:text-slate-800 hover:border-slate-400 whitespace-nowrap transition-colors";
+        calcBtn.className = "py-3 px-4 border-b-2 font-semibold text-slate-500 border-transparent hover:text-slate-800 hover:border-slate-400 whitespace-nowrap transition-colors";
+
+        if(tabId === 'summary') {
+            document.getElementById('tab-summary').classList.remove('hidden');
+            summaryBtn.className = "py-3 px-4 border-b-2 font-bold text-blue-600 border-blue-600 whitespace-nowrap transition-colors";
+        } else {
+            document.getElementById('tab-calculator').classList.remove('hidden');
+            calcBtn.className = "py-3 px-4 border-b-2 font-bold text-blue-600 border-blue-600 whitespace-nowrap transition-colors";
+            
+            // Trigger animation on bars when tab is shown
+            document.querySelectorAll('.risk-bar').forEach(bar => {
+                bar.style.width = bar.getAttribute('data-target-width');
+            });
+        }
+    }
+
+    // Toggle Male/Female specific inputs
+    function toggleSexSpecificFields() {
+        const sex = document.getElementById('sex').value;
+        const femaleFields = document.querySelectorAll('.female-only');
+        femaleFields.forEach(el => {
+            if(sex === 'female') {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+                // reset values for male
+                const selects = el.querySelectorAll('select');
+                selects.forEach(s => s.value = "0");
+            }
+        });
+    }
+
+    // Initialization
+    toggleSexSpecificFields();
+
+    /* * THE AMLES ALGORITHM (Additive-to-Multiplicative Linear Effect Scale)
+     * Base Score (Table 2) + Modifiable (Table 1) - Protective (Table 3)
+     * Scores are weighted 0-10 per factor based on WCRF/AICR Framework evidence.
+     */
+
+    const cancerTypes = [
+        { id: 'lung', name: 'Lung & Bronchus', icon: 'fa-lungs' },
+        { id: 'breast', name: 'Breast (Female)', icon: 'fa-person-breast', femaleOnly: true },
+        { id: 'colorectal', name: 'Colorectal', icon: 'fa-disease' },
+        { id: 'prostate', name: 'Prostate', icon: 'fa-mars', maleOnly: true },
+        { id: 'liver', name: 'Hepatocellular', icon: 'fa-capsules' },
+        { id: 'stomach', name: 'Gastric', icon: 'fa-stomach' },
+        { id: 'pancreas', name: 'Pancreatic', icon: 'fa-bacterium' },
+        { id: 'esophagus', name: 'Esophageal', icon: 'fa-arrows-down-to-line' },
+        { id: 'cervical', name: 'Cervical', icon: 'fa-venus', femaleOnly: true },
+        { id: 'melanoma', name: 'Melanoma (Skin)', icon: 'fa-sun' },
+        { id: 'kidney', name: 'Renal/Kidney', icon: 'fa-kidneys' }
+    ];
+
+    function calculateRisk() {
+        // Collect form data
+        const data = {
+            sex: document.getElementById('sex').value,
+            obesity: parseInt(document.getElementById('obesity').value),
+            diabetes: document.getElementById('diabetes').value === '1',
+            menopause: document.getElementById('menopause').value === '1',
+            breastDensity: document.getElementById('breastDensity').value === '1',
+            familyHistory: document.getElementById('familyHistory').value,
+            hepatitis: document.getElementById('hepatitis').value === '1',
+            hpv: document.getElementById('hpv').value === '1',
+            gi_conditions: document.getElementById('gi_conditions').value,
+            smoking: parseInt(document.getElementById('smoking').value),
+            alcohol: parseInt(document.getElementById('alcohol').value),
+            meat: parseInt(document.getElementById('meat').value),
+            diet_risk: document.getElementById('diet_risk').value,
+            environmental: document.getElementById('environmental').value,
+            physical: parseInt(document.getElementById('physical_activity').value),
+            fiber: document.getElementById('fiber').value === '1',
+            veg: document.getElementById('veg').value === '1',
+            coffee_tea: document.getElementById('coffee_tea').value,
+            nsaids: document.getElementById('nsaids').value === '1',
+            screening: document.getElementById('screening').value === '1',
+            breastfeeding: document.getElementById('breastfeeding').value === '1'
+        };
+
+        const risks = {};
+        cancerTypes.forEach(c => risks[c.id] = { base: 0, modifiable: 0, protective: 0, synergyMultipliers: 1 });
+
+        // --- BASELINE CLINICAL & GENETIC (Table 2) ---
+        if (data.familyHistory === 'brca') {
+            risks.breast.base += 9;
+            risks.pancreas.base += 6;
+            risks.prostate.base += 4;
+        } else if (data.familyHistory === 'lynch') {
+            risks.colorectal.base += 8;
+            risks.stomach.base += 4;
+            risks.pancreas.base += 6;
+            risks.kidney.base += 9;
+        } else if (data.familyHistory === 'prostate') {
+            risks.prostate.base += 8;
+        } else if (data.familyHistory === 'general') {
+            cancerTypes.forEach(c => risks[c.id].base += 2);
+        }
+
+        if (data.hpv) risks.cervical.base += 10;
+        if (data.hepatitis) { risks.liver.base += 10; risks.pancreas.base += 4; }
+        if (data.gi_conditions === 'h_pylori') { risks.stomach.base += 9; risks.pancreas.base += 5; }
+        if (data.gi_conditions === 'ibd') risks.colorectal.base += 9;
+        if (data.gi_conditions === 'gerd') risks.esophagus.base += 9;
+        
+        if (data.diabetes) {
+            risks.breast.base += 2; risks.colorectal.base += 3; risks.liver.base += 6; 
+            risks.pancreas.base += 8; risks.kidney.base += 2;
+        }
+        if (data.sex === 'female') {
+            if (data.breastDensity) risks.breast.base += 7;
+            if (data.menopause) risks.breast.base += 6;
+        }
+
+        // --- MODIFIABLE CAUSANTS (Table 1) ---
+        let smokeMult = data.smoking === 3 ? 1.5 : (data.smoking === 2 ? 1.0 : (data.smoking === 1 ? 0.3 : 0));
+        if (smokeMult > 0) {
+            risks.lung.modifiable += 10 * smokeMult;
+            risks.colorectal.modifiable += 4 * smokeMult;
+            risks.liver.modifiable += 3 * smokeMult;
+            risks.stomach.modifiable += 5 * smokeMult;
+            risks.pancreas.modifiable += 7 * smokeMult;
+            risks.esophagus.modifiable += 9 * smokeMult;
+            risks.cervical.modifiable += 6 * smokeMult;
+            risks.kidney.modifiable += 7 * smokeMult;
+        }
+
+        let alcMult = data.alcohol === 2 ? 1.0 : (data.alcohol === 1 ? 0.5 : 0);
+        if (alcMult > 0) {
+            risks.breast.modifiable += 6 * alcMult;
+            risks.colorectal.modifiable += 5 * alcMult;
+            risks.liver.modifiable += 9 * alcMult;
+            risks.stomach.modifiable += 2 * alcMult;
+            risks.pancreas.modifiable += 4 * alcMult;
+            risks.esophagus.modifiable += 8 * alcMult;
+        }
+
+        if (data.obesity === 2) {
+            risks.colorectal.modifiable += 7;
+            risks.prostate.modifiable += 7; // Advanced phenotype
+            risks.liver.modifiable += 8;
+            risks.stomach.modifiable += 2;
+            risks.pancreas.modifiable += 8;
+            risks.esophagus.modifiable += 9;
+            risks.kidney.modifiable += 8;
+            // Obesity post-menopause synergy
+            if (data.sex === 'female' && data.menopause) risks.breast.modifiable += 8;
+        } else if (data.obesity === 1) {
+            // Overweight adds minor risk
+            cancerTypes.forEach(c => risks[c.id].modifiable += 2);
+        }
+
+        if (data.meat === 2) {
+            risks.colorectal.modifiable += 8; risks.stomach.modifiable += 2; 
+            risks.pancreas.modifiable += 7; risks.esophagus.modifiable += 3;
+        } else if (data.meat === 1) {
+            risks.colorectal.modifiable += 4; risks.pancreas.modifiable += 3;
+        }
+
+        if (data.diet_risk === 'salt') risks.stomach.modifiable += 9;
+        if (data.diet_risk === 'sugar') {
+            risks.breast.modifiable += 3; risks.colorectal.modifiable += 4; 
+            risks.prostate.modifiable += 3; risks.liver.modifiable += 5;
+            risks.pancreas.modifiable += 5; risks.esophagus.modifiable += 4; risks.kidney.modifiable += 4;
+        }
+        if (data.diet_risk === 'hot') risks.esophagus.modifiable += 7;
+
+        if (data.environmental === 'radon') risks.lung.modifiable += 9;
+        if (data.environmental === 'uv') risks.melanoma.modifiable += 10;
+        if (data.environmental === 'aflatoxin') risks.liver.modifiable += 8;
+
+        // --- SYNERGISTIC MULTIPLIERS (AMLES) ---
+        // Smoking + Radon/Asbestos
+        if (smokeMult > 0 && data.environmental === 'radon') risks.lung.synergyMultipliers *= 2.5;
+        // Alcohol + Smoking (Upper aerodigestive tract multiplier)
+        if (smokeMult > 0 && alcMult > 0) {
+            risks.esophagus.synergyMultipliers *= 1.8;
+            risks.stomach.synergyMultipliers *= 1.5;
+        }
+        // Obesity + GERD
+        if (data.obesity === 2 && data.gi_conditions === 'gerd') risks.esophagus.synergyMultipliers *= 2.5;
+
+        // --- PROTECTIVE HABITS (Table 3) ---
+        let physMult = data.physical === 2 ? 1.0 : (data.physical === 1 ? 0.5 : 0);
+        if (physMult > 0) {
+            risks.lung.protective += 2 * physMult;
+            risks.breast.protective += 8 * physMult;
+            risks.colorectal.protective += 9 * physMult;
+            risks.prostate.protective += 5 * physMult;
+            risks.liver.protective += 5 * physMult;
+            risks.stomach.protective += 2 * physMult;
+            risks.pancreas.protective += 4 * physMult;
+            risks.esophagus.protective += 4 * physMult;
+        }
+
+        if (data.fiber) {
+            risks.lung.protective += 3; risks.breast.protective += 3; risks.colorectal.protective += 9;
+            risks.prostate.protective += 2; risks.liver.protective += 4; risks.stomach.protective += 4;
+            risks.pancreas.protective += 4; risks.esophagus.protective += 4;
+        }
+
+        if (data.veg) {
+            risks.lung.protective += 5; risks.breast.protective += 4; risks.colorectal.protective += 6;
+            risks.prostate.protective += 3; risks.liver.protective += 4; risks.stomach.protective += 7;
+            risks.pancreas.protective += 4; risks.esophagus.protective += 6; risks.cervical.protective += 3;
+        }
+
+        if (data.coffee_tea === 'coffee') {
+            risks.colorectal.protective += 2; risks.liver.protective += 8;
+        } else if (data.coffee_tea === 'tea') {
+            // Green tea protection for lung is canceled by smoking
+            if (data.smoking === 0) risks.lung.protective += 4;
+            risks.breast.protective += 2; risks.colorectal.protective += 2; risks.prostate.protective += 2;
+            risks.liver.protective += 3;
+        }
+
+        if (data.nsaids) {
+            risks.colorectal.protective += 8; risks.stomach.protective += 3; risks.esophagus.protective += 2;
+        }
+
+        if (data.screening) {
+            risks.lung.protective += 6; risks.breast.protective += 9; risks.colorectal.protective += 10;
+            risks.prostate.protective += 7; risks.liver.protective += 5; risks.stomach.protective += 3;
+            risks.cervical.protective += 10; risks.melanoma.protective += 9;
+        }
+
+        if (data.sex === 'female' && data.breastfeeding) {
+            risks.breast.protective += 8;
+        }
+
+        // --- COMPUTE FINAL SCORES ---
+        renderResults(risks, data);
+    }
+
+    function renderResults(risks, data) {
+        const container = document.getElementById('cancerBars');
+        container.innerHTML = ''; // clear old
+        const insights = [];
+
+        // Max possible raw scores per cancer to normalize to 100%
+        // Using approximate maximums based on theoretical worst cases in the matrix
+        const maxExpectedScores = {
+            lung: 35, breast: 30, colorectal: 35, prostate: 25, liver: 35, 
+            stomach: 30, pancreas: 35, esophagus: 35, cervical: 25, melanoma: 20, kidney: 25
+        };
+
+        let highestRiskId = null;
+        let highestRiskVal = -1;
+
+        cancerTypes.forEach(cancer => {
+            // Filter by sex
+            if (cancer.maleOnly && data.sex === 'female') return;
+            if (cancer.femaleOnly && data.sex === 'male') return;
+
+            const r = risks[cancer.id];
+            
+            // Raw calculation: ((Base + Modifiable) * Synergy) - Protective
+            let rawScore = ((r.base + r.modifiable) * r.synergyMultipliers) - r.protective;
+            if (rawScore < 0) rawScore = 0;
+
+            let percentage = (rawScore / maxExpectedScores[cancer.id]) * 100;
+            if (percentage > 100) percentage = 100;
+            
+            // Generate visual color based on threshold
+            let colorClass = 'bg-emerald-500'; // Low < 20%
+            let labelClass = 'text-emerald-700';
+            let riskText = 'Low Baseline';
+            
+            if (percentage >= 75) {
+                colorClass = 'bg-rose-600'; labelClass = 'text-rose-700'; riskText = 'Severe Risk';
+                if (percentage > highestRiskVal) { highestRiskVal = percentage; highestRiskId = cancer.id; }
+            } else if (percentage >= 50) {
+                colorClass = 'bg-orange-500'; labelClass = 'text-orange-700'; riskText = 'High Risk';
+                if (percentage > highestRiskVal) { highestRiskVal = percentage; highestRiskId = cancer.id; }
+            } else if (percentage >= 20) {
+                colorClass = 'bg-amber-400'; labelClass = 'text-amber-700'; riskText = 'Moderate Risk';
+            }
+
+            const html = `
+                <div class="mb-2">
+                    <div class="flex justify-between items-end mb-1">
+                        <span class="text-sm font-semibold text-slate-700"><i class="fa-solid ${cancer.icon} w-5 text-slate-400"></i> ${cancer.name}</span>
+                        <span class="text-xs font-bold ${labelClass}">${riskText} (${Math.round(percentage)}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                        <div class="${colorClass} h-2.5 rounded-full risk-bar" style="width: 0%" data-target-width="${percentage}%"></div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        });
+
+        // Trigger animation
+        setTimeout(() => {
+            document.querySelectorAll('.risk-bar').forEach(bar => {
+                bar.style.width = bar.getAttribute('data-target-width');
+            });
+        }, 100);
+
+        // Generate Clinical Insights
+        if (data.smoking > 0) insights.push("<strong>Tobacco cessation:</strong> Smoking exerts a massive multiplicative risk effect on pulmonary and aerodigestive cancers. Cessation is the #1 preventative action.");
+        if (data.obesity === 2) insights.push("<strong>Metabolic Health:</strong> Visceral adiposity drives 13 distinct cancers via estrogenic aromatization and chronic systemic inflammation. Weight management is critically recommended.");
+        if (data.familyHistory === 'lynch' || data.familyHistory === 'brca') insights.push("<strong>Genetic Profiling:</strong> Given your familial history, genetic counseling and aggressive, early prophylactic screening protocols (e.g., earlier colonoscopies or mammograms) are mandatory.");
+        if (data.meat === 2) insights.push("<strong>Dietary shift:</strong> High intake of processed meats generates N-nitroso compounds. Substitute with plant-based proteins or fish to rapidly lower colorectal risks.");
+        if (data.nsaids && data.familyHistory === 'lynch') insights.push("<strong>Chemoprevention active:</strong> Your long-term NSAID/Aspirin use is mathematically down-regulating the COX-2 pathway, highly beneficial against your colorectal genetic baseline.");
+        if (!data.screening) insights.push("<strong>Screening Deficit:</strong> Adhering to clinical screening (endoscopy, mammography, dermatology) acts as a primary mechanical interceptor of precancerous dysplasias.");
+        if (data.physical === 0) insights.push("<strong>Physical Inactivity:</strong> Increasing vigorous activity to >150 mins/week actively lowers circulating endogenous estrogens and insulin, directly suppressing tumor proliferation pathways.");
+        
+        if (insights.length === 0) insights.push("Your preventative matrix is strong. Continue maintaining a balanced lifestyle, high fiber diet, and regular clinical screenings.");
+
+        const insightListEl = document.getElementById('insightsList');
+        insightListEl.innerHTML = '';
+        insights.forEach(ins => {
+            insightListEl.insertAdjacentHTML('beforeend', `<li>${ins}</li>`);
+        });
+    }
+
+    // Attach event listeners for real-time calculation
+    const form = document.getElementById('assessmentForm');
+    form.addEventListener('change', calculateRisk);
+    form.addEventListener('input', calculateRisk);
+    
+    // Trigger initial calculation on page load to establish baseline
+    calculateRisk();
+
+</script>
+</body>
+</html>
